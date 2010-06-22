@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='utf-8'?>
+<snippets language="php">
+  <snippet>
+    <text><![CDATA[/**
+ *
+ *
+ *
+ *
+ */]]></text>
+    <tag>CommentDoc</tag>
+    <description>CommentDoc</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[/**
+ *
+ *
+ *
+ *
+ */
+public function ${1:pluralName}Action()
+{
+	$this->view->title = '${1:pluralName}';
+	
+	$${3:tableName}Tb = new ${3:tableName}();
+	$${1:pluralName} = $${3:tableName}Tb->fetchAll();
+	if (!is_null($${1:pluralName})) {
+		$this->view->${1:pluralName} = $${1:pluralName}->toArray();
+	}
+	
+	$this->view->messages = My_Util::getFlashMess('messages', &$this);
+	$this->view->errors = My_Util::getFlashMess('errors', &$this);
+}
+
+/**
+ *
+ *
+ *
+ *
+ */
+public function add${2:singularName}Action()
+{
+	$this->view->title = 'Add ${2:singularName}';
+
+	$${3:tableName}Tb = new ${3:tableName}();
+
+	$formData = $this->_request->getPost();
+
+	$form${2:singularName} = new ${2:singularName}Form();
+
+	if ($this->_request->isPost()) {
+		  if ($form${2:singularName}->isValid($formData)) {
+		      $row = $${3:tableName}Tb->createRow($form${2:singularName}->getValues());
+		      $row->id = NULL;
+		      try {
+		          $row->save();
+							My_Util::setFlashMess('messages', "${2:singularName} added successfully.", &$this);
+		      } catch (Exception $e) {
+		          My_Util::appLog($e->getMessage(), __FILE__, __LINE__, $e->getCode());
+							My_Util::setFlashMess('errors', "Fail saving ${2:singularName}.", &$this);
+		      }
+		      $this->_redirect('/${4:controllerName}/${1:pluralName}');
+		  } else {
+		      $form${2:singularName}->populate($formData);
+		  }
+	} else {
+	}
+
+	$this->view->form_${3:tableName} = $form${2:singularName};
+
+}
+
+/**
+ *
+ *
+ *
+ *
+ */
+public function edit${2:singularName}Action()
+{
+	$this->view->title = 'Edit ${2:singularName}';
+
+	$${3:tableName}Tb = new ${3:tableName}();
+
+	$formData = $this->_request->getPost();
+
+	$form${2:singularName} = new ${2:singularName}Form();
+
+	if ($this->_request->isPost()) {
+		  if ($form${2:singularName}->isValid($formData)) {
+		      $row = $${3:tableName}Tb->find($form${2:singularName}->getValue('id'))->current();
+		      $row->setFromArray($form${2:singularName}->getValues());
+		      try {
+		          $row->save();
+
+							My_Util::setFlashMess('messages', "${2:singularName} saved successfully.", &$this);
+		      } catch (Exception $e) {
+		          My_Util::appLog($e->getMessage(), __FILE__, __LINE__, $e->getCode());
+		          My_Util::setFlashMess('errors', "Fail saving ${2:singularName}.", &$this);
+		      }
+		      $this->_redirect('/${4:controllerName}/${1:pluralName}');
+		  } else {
+		      $form${2:singularName}->populate($formData);
+		  }
+	} else {
+		$id = (int)$this->_request->getParam('id', 0);
+	    if ($id > 0) {
+	        $${2:singularName} = $${3:tableName}Tb->find($id)->current();
+	        if (!is_null($${2:singularName})) {
+	            $form${2:singularName}->populate($${2:singularName}->toArray());
+	        } else {
+	            $this->_redirect('/${4:controllerName}/${1:pluralName}');
+	        }
+	    }
+	}
+
+	$this->view->form_${3:tableName} = $form${2:singularName};
+}
+
+/**
+ *
+ *
+ *
+ *
+ */
+public function delete${2:singularName}Action()
+{
+	$id = (int)$this->_request->getParam('id', 0);
+
+	$${3:tableName}Tb = new ${3:tableName}();
+	$${3:tableName}Tb->delete("id='$id'");
+	
+	My_Util::setFlashMess('messages', "${2:singularName} deleted successfully.", &$this);
+
+	$this->_redirect('/${4:controllerName}/${1:pluralName}');
+}]]></text>
+    <tag>ZFCRUD</tag>
+    <description>ZF CRUD</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[$this->_helper->layout->disableLayout();
+$this->_helper->viewRenderer->setNoRender(true);]]></text>
+    <tag>ZFDisableLayout</tag>
+    <description>disableLayout</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[try {
+	${1:# Code...}
+} catch (Exception $e) {
+	My_Util::appLog($e->getMessage(), __FILE__, __LINE__, $e->getCode());
+}]]></text>
+    <tag>ZftryCatchError</tag>
+    <description>ZF try-catchError</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[My_Util::getFlashMess('${1:messages}', &$this);]]></text>
+    <tag>ZFUtilGetFlashMess</tag>
+    <description>ZF UtilGetFlashMess</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[My_Util::appLog(${1:what}, __FILE__, __LINE__, "${2:code}");]]></text>
+    <tag>ZFUtilLog</tag>
+    <description>ZF UtilLog</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[My_Util::setFlashMess('${1:messages}', "${2:message}", &$this);]]></text>
+    <tag>ZFUtilSetFlashMess</tag>
+    <description>ZF UtilSetFlashMess</description>
+  </snippet>
+</snippets>

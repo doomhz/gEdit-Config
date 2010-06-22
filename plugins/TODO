@@ -1,0 +1,5 @@
+Get gedit plugin incorporated into upstream
+Make placeholders work (borrow code from snippets plugin)
+Check that the UI is presented the same way as other editors (Ctrl-E as key,
+  title of menu item, etc)
+

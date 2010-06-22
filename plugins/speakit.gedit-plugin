@@ -1,0 +1,10 @@
+[Gedit Plugin]
+Loader=python
+Module=speakit
+IAge=2
+Name=Speak Document
+Description=Speaks the current document.
+Authors=Peter Wolf <p135711131719@yahoo.com.au>
+Copyright=Completely free
+Website=http://www.gedit.org
+

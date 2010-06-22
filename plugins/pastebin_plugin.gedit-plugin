@@ -1,0 +1,9 @@
+[Gedit Plugin]
+Loader=python
+Module=pastebin_plugin
+IAge=2
+Name=Pastebin plugin
+Description=Send documents to pastebin.com the easy way
+Authors=Amir Hadzic <amir.hadzic91@gmail.com>
+Copyright=Copyright © Amir Hadzic <amir.hadzic91@gmail.com>
+Website=http://www.gedit.org
