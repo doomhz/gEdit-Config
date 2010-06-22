@@ -1,3 +1,12 @@
 gEdit Config for Gnome 2
 
 A collection of plugins, snippets and themes for gEdit.
+
+You can download and install them directly in gedit config directory:
+
+cd ~/.gnome2/
+mv gedit gedit_bk
+git clone git://github.com/doomhz/gEdit-Config.git
+mv gEdit-Config gedit
+
+Open gEdit and enable the plugins and themes you want to use.
