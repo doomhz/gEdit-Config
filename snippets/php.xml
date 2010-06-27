@@ -238,4 +238,41 @@ $0
     <tag>ZFjoin</tag>
     <description>ZF join</description>
   </snippet>
+  <snippet>
+    <text><![CDATA[//Get orders page number
+$pageNr = $this->_request->getQuery('page', 1);
+$resPerPage = 40;
+
+//Sort settings
+$sortBy = $this->_request->getQuery('sort', 'ID');
+$sortDirection = $this->_request->getQuery('direction', 'DESC');
+
+$sortFields = array('ID');
+
+$sortBy = !in_array($sortBy, $sortFields) ? 'ID' : $sortBy;
+$sortDirection = !in_array($sortDirection, array('ASC', 'DESC')) ? 'DESC' : $sortDirection;
+
+${$1}Tb = new {$1}();
+
+$select = ${$1}Tb->select()->from(${$1}Tb)
+                                          ->order("$sortBy $sortDirection")
+                                          ->limitPage($pageNr, $resPerPage);
+
+${$2} = ${$1}Tb->fetchAll($select);
+//Set up Paginator
+$paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Null(${$1}Tb->countAll()));
+$paginator->setCurrentPageNumber($pageNr);
+$paginator->setItemCountPerPage($resPerPage);
+$paginator->setPageRange($resPerPage);
+$this->view->paginator = $paginator->getPages();
+
+//Set up Paginator URLs for Next/Prev links along with query params
+$this->view->paginatorUrl = '/{$3}/{$2}?sort=' . $sortBy . '&direction=' . $sortDirection;
+
+foreach ($sortFields as $sortField) {
+    $this->view->{'sortBy' . $sortField . 'Url'} = '/{$3}/{$2}?page=' . $pageNr . '&sort=' . $sortField . '&direction=' . $sortDirection;
+}]]></text>
+    <tag>ZFPaginate</tag>
+    <description>ZF Paginate</description>
+  </snippet>
 </snippets>
